@@ -19,8 +19,8 @@
     }
   },
   "variables": {
-    "appInsName": "appIniCheck",
-    "responseAlertName": "[concat('ResponseTime-', toLower(variables('appInsName')))]"
+    "appInsName": "AI.Demo",
+    "AlertName": "Failure Anomalies - AI.Demo"
   },
   "resources": [
     {
@@ -33,7 +33,7 @@
       }
     },
     {
-      "name": "[variables('responseAlertName')]",
+      "name": "[variables('AlertName')]",
       "type": "Microsoft.Insights/alertrules",
       "apiVersion": "2014-04-01",
       "location": "[parameters('location')]",
@@ -44,8 +44,8 @@
         "[concat('hidden-link:', resourceId('Microsoft.Insights/components', variables('appInsName')))]": "Resource"
       },
       "properties": {
-        "name": "[variables('responseAlertName')]",
-        "description": "response time alert",
+        "name": "[variables('AlertName')]",
+        "description": "",
         "isEnabled": true,
         "condition": {
           "$type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.ThresholdRuleCondition, Microsoft.WindowsAzure.Management.Mon.Client",
@@ -54,17 +54,19 @@
             "$type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.RuleMetricDataSource, Microsoft.WindowsAzure.Management.Mon.Client",
             "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
             "resourceUri": "[resourceId('microsoft.insights/components', variables('appInsName'))]",
-            "metricName": "request.duration"
+            "metricName": "advanced::A3108E3D-5E26-44CF-B232-783F5E20EF10::ewAiAEgAeQBwAGUAcgBpAG8AbgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AUwBpAGQAIgA6AG4AdQBsAGwALAAiAEgAeQBwAGUAcgBpAG8AbgBTAHUAYgBqAGUAYwB0AFMAaQBkACIAOgBuAHUAbABsACwAIgBIAHkAcABlAHIAaQBvAG4ATwBiAHMAZQByAHYAZQByAFMAaQBkACIAOgBuAHUAbABsACwAIgBDAHUAcwB0AG8AbQBlAHIAQQBjAGMAbwB1AG4AdABJAGQAIgA6ACIAMAAwADAAMAAwADAAMAAwAC0AMAAwADAAMAAtADAAMAAwADAALQAwADAAMAAwAC0AMAAwADAAMAAwADAAMAAwADAAMAAwADAAIgAsACIAQQBwAHAAbABpAGMAYQB0AGkAbwBuAE4AYQBtAGUAIgA6AG4AdQBsAGwALAAiAEEAcABwAGwAaQBjAGEAdABpAG8AbgBJAGQAIgA6AG4AdQBsAGwALAAiAFAAcgBvAGYAaQBsAGUASQBkACIAOgAwACwAIgBXAGkAbgBkAG8AdwBTAGkAegBlAEkAbgBNAGkAbgB1AHQAZQBzACIAOgA2ADAALAAiAE0AZQB0AHIAaQBjAE4AYQBtAGUAIgA6ACIAIgAsACIAVABoAHIAZQBzAGgAbwBsAGQAIgA6ADIALAAiAEEAbABlAHIAdABUAGUAbQBwAGwAYQB0AGUASQBkACIAOgAiACIALAAiAFIAdQBsAGUASQBkACIAOgAiACIALAAiAFIAdQBsAGUATgBhAG0AZQAiADoAIgAiACwAIgBSAHUAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAiADoAIgAiACwAIgBSAGUAcwBvAHUAcgBjAGUASQBkACIAOgBuAHUAbABsACwAIgBTAHUAYgBzAGMAcgBpAHAAdABpAG8AbgBJAGQAIgA6AG4AdQBsAGwALAAiAEEAZwBnAHIAZQBnAGEAdABlAEYAdQBuAGMAdABpAG8AbgAiADoAIgAiACwAIgBDAG8AbQBwAGEAcgBpAHMAbwBuAE8AcABlAHIAYQB0AG8AcgAiADoAIgB7AFwAIgBCAGEAcwBlAGwAaQBuAGUAVABpAG0AZQBzAHAAYQBuAFwAIgA6AFwAIgAwADAAOgA0ADAAOgAwADAAXAAiACwAXAAiAEkAbgBzAGkAZwBoAHQAcwBTAGUAcgB2AGkAYwBlAEwAYQBnAFwAIgA6AFwAIgAwADAAOgAwADAAOgAwADAAXAAiACwAXAAiAEIAdQBmAGYAZQByAFQAaQBtAGUAXAAiADoAXAAiADAAMAA6ADAAMQA6ADAAMABcACIALABcACIAQgBsAG8AYgBTAHQAbwByAGEAZwBlAEwAbwBnAGcAaQBuAGcARQBuAGEAYgBsAGUAZABcACIAOgBmAGEAbABzAGUALABcACIAVQBzAGUAcgBTAHUAcABwAHIAZQBzAHMAaQBvAG4AcwBcACIAOgBuAHUAbABsACwAXAAiAFAAcgBvAGYAaQBsAGUASQBkAFwAIgA6ADAALABcACIARQBtAGEAaQBsAFQAeQBwAGUAXAAiADoAMgAsAFwAIgBSAGQAZABGAGEAaQBsAHUAcgBlAHMAUwBwAGkAawBlAFQAaAByAGUAcwBoAG8AbABkAFwAIgA6ADMALABcACIAUgBhAHcAUAByAG8AYQBjAHQAaQB2AGUAUgB1AGwAZQBDAG8AbgBmAGkAZwBcACIAOgBuAHUAbABsAH0AIgAsACIARQBuAGEAYgBsAGUAUwBlAG4AZABFAG0AYQBpAGwAVABvAEMAdQBzAHQAbwBtACIAOgBmAGEAbABzAGUALAAiAEMAdQBzAHQAbwBtAEUAbQBhAGkAbABzAEUAbgBjAG8AZABlAGQAIgA6ACIAIgAsACIARQBuAGEAYgBsAGUAUwBlAG4AZABFAG0AYQBpAGwAVABvAE8AdwBuAGUAcgBzACIAOgBmAGEAbABzAGUAfQA="
           },
-          "threshold": "[parameters('responseTime')]",
-          "windowSize": "PT5M"
+          "threshold":0.0,
+          "windowSize": "PT1H"
         },
         "actions": [
           {
             "$type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.RuleEmailAction, Microsoft.WindowsAzure.Management.Mon.Client",
             "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
-            "sendToServiceOwners": true,
-            "customEmails": []
+            "sendToServiceOwners": false,
+            "customEmails": [
+              "amgar@microsoft.com"
+            ]
           }
         ]
       }
